@@ -58,9 +58,16 @@ const Header: React.FC = () => {
             <div className="max-w-5xl mx-auto px-10 py-6 flex gap-10">
               <div className="w-1/3">
                 <div className="text-start mb-2">Explore Products</div>
-                {activeData?.data.items.map((subItem) => (
-                  <div
+                {activeData?.data.items.map((subItem, idx: number) => (
+                  <motion.div
                     key={subItem.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.3,
+                      ease: "easeOut",
+                      delay: idx * 0.07, // staggered timing
+                    }}
                     onMouseEnter={() => setActiveSub(subItem.label)}
                     className={`py-1 cursor-pointer text-sm text-gray-700 hover:text-gray-500 flex items-center justify-start group ${
                       activeSub === subItem.label ? "text-gray-700" : ""
@@ -70,20 +77,27 @@ const Header: React.FC = () => {
                     <span className="text-gray-400 invisible group-hover:visible transition-all ease-linear duration-150 text-3xl -mt-1.5">
                       ›
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               <div className="">
                 {activeData?.data.items
                   .find((s) => s.label === activeSub)
-                  ?.data.map((product) => (
-                    <div
+                  ?.data.map((product, idx) => (
+                    <motion.div
                       key={product.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        ease: "easeOut",
+                        delay: idx * 0.07, // staggered timing
+                      }}
                       className="flex flex-col items-center text-start my-1 hover:bg-gray-50 rounded-lg cursor-pointer"
                     >
                       <p className="text-sm text-gray-700">{product.label}</p>
-                    </div>
+                    </motion.div>
                   ))}
               </div>
             </div>
