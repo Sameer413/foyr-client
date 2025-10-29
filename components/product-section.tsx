@@ -13,7 +13,7 @@ const ProductSection: React.FC<{}> = ({}) => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const handleSwipe = (dir) => {
+  const handleSwipe = (dir: "left" | "right") => {
     if (dir === "left" && index < sections.length - 1) {
       setDirection(1);
       setIndex((prev) => prev + 1);
@@ -23,11 +23,11 @@ const ProductSection: React.FC<{}> = ({}) => {
     }
   };
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX.current = e.targetTouches[0].clientX;
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     touchEndX.current = e.targetTouches[0].clientX;
   };
 
@@ -37,6 +37,7 @@ const ProductSection: React.FC<{}> = ({}) => {
     else if (diff < -50) handleSwipe("right");
   };
 
+  //@ts-ignore
   const currentData = productsData[sections[index]];
 
   return (
@@ -73,27 +74,29 @@ const ProductSection: React.FC<{}> = ({}) => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="grid grid-cols-4 gap-8"
           >
-            {currentData.products.map((p, idx: number) => (
-              <div
-                key={idx}
-                className="rounded-2xl group overflow-hidden relative cursor-pointer"
-              >
-                <img
-                  src={p.image}
-                  alt=""
-                  className="object-cover rounded-2xl h-full group-hover:scale-115 transition-transform duration-150 ease-linear"
-                />
+            {currentData.products.map(
+              (p: { image: string; label: string }, idx: number) => (
+                <div
+                  key={idx}
+                  className="rounded-2xl group overflow-hidden relative cursor-pointer"
+                >
+                  <img
+                    src={p.image}
+                    alt=""
+                    className="object-cover rounded-2xl h-full group-hover:scale-115 transition-transform duration-150 ease-linear"
+                  />
 
-                <div className="absolute invisible group-hover:visible bottom-0 left-0 text-white h-full w-full p-4 flex items-end bg-linear-to-b from-transparent to-[rgba(0,0,0,0.7)] transition-opacity ease-linear duration-150 justify-between opacity-0 group-hover:opacity-100">
-                  <div className="w-3/4">{p.label}</div>
-                  <div className="">
-                    <button className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition">
-                      <ChevronRight className="w-5 h-5 text-white" />
-                    </button>
+                  <div className="absolute invisible group-hover:visible bottom-0 left-0 text-white h-full w-full p-4 flex items-end bg-linear-to-b from-transparent to-[rgba(0,0,0,0.7)] transition-opacity ease-linear duration-150 justify-between opacity-0 group-hover:opacity-100">
+                    <div className="w-3/4">{p.label}</div>
+                    <div className="">
+                      <button className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition">
+                        <ChevronRight className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
