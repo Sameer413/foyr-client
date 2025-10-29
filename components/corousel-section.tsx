@@ -7,15 +7,18 @@ interface CarouselProps {
   //   images: string[];
   autoPlay?: boolean;
   interval?: number;
+  selectedIndex: number;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const images = carouselData.map((item) => item.imgsrc);
 
 const CarouselComponent: React.FC<CarouselProps> = ({
+  selectedIndex,
+  setSelectedIndex,
   autoPlay = true,
   interval = 5000,
 }) => {
-  const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const DRAG_THRESHOLD = 80; // px to decide next/prev
   const [isDragging, setIsDragging] = useState(false);
@@ -26,20 +29,20 @@ const CarouselComponent: React.FC<CarouselProps> = ({
     if (!autoPlay || isDragging || userInteracted) return;
     const timer = setInterval(() => nextSlide(), interval);
     return () => clearInterval(timer);
-  }, [index, autoPlay, isDragging, userInteracted]);
+  }, [selectedIndex, autoPlay, isDragging, userInteracted]);
 
   const nextSlide = () => {
     setDirection(1);
-    setIndex((prev) => (prev + 1) % images.length);
+    setSelectedIndex((prev) => (prev + 1) % images.length);
   };
 
   const prevSlide = () => {
     setDirection(-1);
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setSelectedIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const getTranslateX = () => {
-    return `-${index * 75}%`;
+    return `-${selectedIndex * 75}%`;
   };
 
   return (
@@ -74,15 +77,15 @@ const CarouselComponent: React.FC<CarouselProps> = ({
                 alt={slide}
                 className="w-full h-full object-cover select-none"
                 animate={{
-                  scale: index === i ? 1 : 1.15,
+                  scale: selectedIndex === i ? 1 : 1.15,
                 }}
                 transition={{ duration: 1, ease: "easeInOut" }}
               />
               {/* ANIMATED CAPTION/LOGO OVERLAY */}
-              {index === i && (
+              {selectedIndex === i && (
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={index}
+                    key={selectedIndex}
                     className="absolute bottom-10 left-10 flex flex-col items-start gap-3 z-20"
                   >
                     {/* Logo */}
@@ -103,9 +106,9 @@ const CarouselComponent: React.FC<CarouselProps> = ({
                       exit={{ opacity: 1 }}
                       className="text-white text-4xl font-medium w-96"
                     >
-                      {index === 0 && "Premium Interior Facades"}
-                      {index === 1 && "Modern Bathroom Designs"}
-                      {index === 2 && "Luxury Home Spaces"}
+                      {selectedIndex === 0 && "Premium Interior Facades"}
+                      {selectedIndex === 1 && "Modern Bathroom Designs"}
+                      {selectedIndex === 2 && "Luxury Home Spaces"}
                     </motion.div>
 
                     {/* Expanding bar (must be INSIDE same motion.div) */}

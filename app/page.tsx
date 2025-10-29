@@ -16,7 +16,7 @@ export default function Home() {
     productsData["the house of w"].label
   );
   const [scrolled, setScrolled] = useState(false);
-  const [products, setProducts] = useState(productsData["the house of w"]);
+
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
 
@@ -69,7 +69,10 @@ export default function Home() {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="h-screen w-full relative no-select no-drag"
       >
-        <CarouselComponent />
+        <CarouselComponent
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+        />
       </motion.div>
 
       <motion.div
