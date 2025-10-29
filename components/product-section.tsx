@@ -57,7 +57,10 @@ const ProductSection: React.FC<{}> = ({}) => {
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <h2 className="text-4xl font-medium text-black capitalize">
-              {currentData.label} Products
+              {currentData.label}
+            </h2>
+            <h2 className="text-4xl font-medium text-black capitalize">
+              Products
             </h2>
             <div className="h-0.5 w-24 bg-black mt-2" />
           </motion.div>

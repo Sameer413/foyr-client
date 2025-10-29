@@ -10,9 +10,9 @@ const Header: React.FC = () => {
   const activeData = navItems.find((item) => item.label === activeMain);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+    <header className="fixed top-0 left-0 w-full haut z-50 bg-white shadow-sm">
       {/* Top Header */}
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-8 py-4">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-8 py-4 ">
         <Link href={"/"} className="text-xl font-semibold tracking-wide">
           All home.
         </Link>
@@ -34,6 +34,7 @@ const Header: React.FC = () => {
                     ? "text-black font-semibold"
                     : "text-gray-700 hover:text-black"
                 }`}
+                disabled={navItem.data.items === null}
               >
                 {navItem.label}
               </button>
@@ -53,12 +54,15 @@ const Header: React.FC = () => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
             className="absolute top-full left-0 w-full bg-white shadow-xl z-40"
-            onMouseLeave={() => setActiveMain(null)}
+            onMouseLeave={() => {
+              setActiveMain(null);
+              setActiveSub(null);
+            }}
           >
             <div className="max-w-5xl mx-auto px-10 py-6 flex gap-10">
               <div className="w-1/3">
                 <div className="text-start mb-2">Explore Products</div>
-                {activeData?.data.items.map((subItem, idx: number) => (
+                {activeData?.data.items?.map((subItem, idx: number) => (
                   <motion.div
                     key={subItem.label}
                     initial={{ opacity: 0, y: 20 }}

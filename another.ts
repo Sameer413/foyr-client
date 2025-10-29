@@ -64,6 +64,10 @@ export const productsData = {
       },
     ],
   },
+  // fiamarc: {
+  //   label: "Fiamarc",
+  //   categories: null,
+  // },
 };
 
 export const navItems = Object.entries(productsData).map(
@@ -71,7 +75,7 @@ export const navItems = Object.entries(productsData).map(
     label,
     data: {
       label: "Explore Products",
-      items: categories.map((sub) => ({
+      items: categories?.map((sub) => ({
         label: sub.label,
         data: sub.products.map((p) => ({ label: p.label })),
       })),
