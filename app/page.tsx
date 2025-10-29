@@ -72,7 +72,7 @@ export default function Home() {
         className="fixed bottom-0 left-0 w-full h-screen z-40 flex flex-col justify-center items-start px-10 overflow-hidden"
       >
         <div className="w-full h-full overflow-y-scroll no-select no-drag">
-          <ProductSection products={products} />
+          <ProductSection />
         </div>
       </motion.div>
     </div>

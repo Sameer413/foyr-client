@@ -3,10 +3,8 @@ import { productsData } from "@/productsData";
 import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
-
-const ProductSection: React.FC<{ currentProduct: string }> = ({
-  currentProduct,
-}) => {
+// currentProduct: string;
+const ProductSection: React.FC<{}> = ({}) => {
   const sections = Object.keys(productsData);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0); // 1 = right, -1 = left
