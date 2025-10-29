@@ -1,108 +1,93 @@
 "use client";
-import { productsData } from "@/productsData";
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { ChevronRight } from "lucide-react";
-// currentProduct: string;
-const ProductSection: React.FC<{}> = ({}) => {
+import { motion } from "motion/react";
+import { productsData } from "@/another";
+import EachProducts from "./each-products";
+
+const ProductSection: React.FC = () => {
   const sections = Object.keys(productsData);
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // 1 = right, -1 = left
 
-  // ✅ useRef ensures values persist across renders
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleSwipe = (dir: "left" | "right") => {
     if (dir === "left" && index < sections.length - 1) {
-      setDirection(1);
       setIndex((prev) => prev + 1);
     } else if (dir === "right" && index > 0) {
-      setDirection(-1);
       setIndex((prev) => prev - 1);
     }
   };
 
+  // Touch events
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsDragging(true);
     touchStartX.current = e.targetTouches[0].clientX;
   };
-
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     touchEndX.current = e.targetTouches[0].clientX;
   };
-
   const handleTouchEnd = () => {
+    setIsDragging(false);
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 30) handleSwipe("left");
+    else if (diff < -30) handleSwipe("right");
+  };
+
+  // Mouse events
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    touchStartX.current = e.clientX;
+  };
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging) touchEndX.current = e.clientX;
+  };
+  const handleMouseUp = () => {
+    setIsDragging(false);
     const diff = touchStartX.current - touchEndX.current;
     if (diff > 50) handleSwipe("left");
     else if (diff < -50) handleSwipe("right");
   };
 
-  //@ts-ignore
-  const currentData = productsData[sections[index]];
-
   return (
     <div
-      className="min-h-screen bg-white overflow-hidden px-24 py-10 select-none"
+      className="relative overflow-hidden min-h-screen bg-white select-none px-24 py-10"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
-      <div className="mb-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: direction === 1 ? 100 : -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction === 1 ? -100 : 100 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <h2 className="text-4xl font-medium text-black capitalize">
-              {currentData.label}
-            </h2>
-            <h2 className="text-4xl font-medium text-black capitalize">
-              Products
-            </h2>
-            <div className="h-0.5 w-24 bg-black mt-2" />
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      <motion.div
+        className="flex transition-transform duration-500 ease-in-out"
+        animate={{ x: `-${index * 100}%` }}
+        // transition={{ type: "spring", stiffness: 200, damping: 30 }}
+        transition={{ ease: "easeInOut", duration: 0.3 }}
+      >
+        {sections.map((key, i) => {
+          // @ts-ignore
+          const section = productsData[key];
+          const allProducts =
+            section.categories?.flatMap((cat: any) => cat.products) || [];
 
-      <div className="relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: direction === 1 ? 100 : -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction === 1 ? -100 : 100 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="grid grid-cols-4 gap-8"
-          >
-            {currentData.products.map(
-              (p: { image: string; label: string }, idx: number) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl group overflow-hidden relative cursor-pointer"
-                >
-                  <img
-                    src={p.image}
-                    alt=""
-                    className="object-cover rounded-2xl h-full group-hover:scale-115 transition-transform duration-150 ease-linear"
-                  />
-
-                  <div className="absolute invisible group-hover:visible bottom-0 left-0 text-white h-full w-full p-4 flex items-end bg-linear-to-b from-transparent to-[rgba(0,0,0,0.7)] transition-opacity ease-linear duration-150 justify-between opacity-0 group-hover:opacity-100">
-                    <div className="w-3/4">{p.label}</div>
-                    <div className="">
-                      <button className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition">
-                        <ChevronRight className="w-5 h-5 text-white" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+          return (
+            <div
+              key={i}
+              className="w-full flex-shrink-0"
+              style={{ flex: "0 0 100%" }}
+            >
+              <EachProducts
+                currentSection={section}
+                allProducts={allProducts}
+                index={i}
+                direction={index > i ? -1 : 1}
+              />
+            </div>
+          );
+        })}
+      </motion.div>
     </div>
   );
 };

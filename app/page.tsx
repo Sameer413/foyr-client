@@ -69,7 +69,7 @@ export default function Home() {
         initial={{ y: "100%" }}
         animate={{ y: scrolled ? "8%" : "100%" }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="fixed bottom-0 left-0 w-full h-screen z-40 flex flex-col justify-center items-start px-10 overflow-hidden"
+        className="fixed bottom-0 left-0 w-full h-screen z-20 flex flex-col justify-center items-start px-10 overflow-hidden"
       >
         <div className="w-full h-full overflow-y-scroll no-select no-drag">
           <ProductSection />
