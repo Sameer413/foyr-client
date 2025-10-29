@@ -3,14 +3,17 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const Header: React.FC = () => {
+const Header: React.FC<{
+  selectedIndex: number;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ selectedIndex, setSelectedIndex }) => {
   const [activeMain, setActiveMain] = useState<string | null>(null);
   const [activeSub, setActiveSub] = useState<string | null>(null);
 
   const activeData = navItems.find((item) => item.label === activeMain);
 
   return (
-    <header className="fixed top-0 left-0 w-full haut z-50 bg-white shadow-sm">
+    <header className="fixed top-0 left-0 w-full haut z-50 bg-white">
       {/* Top Header */}
       <div className="max-w-5xl mx-auto flex items-center justify-between px-8 py-4 ">
         <Link href={"/"} className="text-xl font-semibold tracking-wide">
@@ -19,7 +22,7 @@ const Header: React.FC = () => {
 
         {/* Navigation */}
         <nav className="flex items-center gap-10 relative">
-          {navItems.map((navItem) => (
+          {navItems.map((navItem, idx) => (
             <div
               key={navItem.label}
               className="relative"
@@ -27,12 +30,13 @@ const Header: React.FC = () => {
               onMouseLeave={() => {
                 setActiveSub(null);
               }}
+              onClick={() => setSelectedIndex(idx)}
             >
               <button
-                className={`uppercase text-sm tracking-wide ${
-                  activeMain === navItem.label
-                    ? "text-black font-semibold"
-                    : "text-gray-700 hover:text-black"
+                className={`uppercase text-sm font-medium text-neutral-600 tracking-wide hover:text-neutral-950 ${
+                  selectedIndex === idx
+                    ? "text-neutral-950"
+                    : "text-neutral-600"
                 }`}
                 disabled={navItem.data.items === null}
               >

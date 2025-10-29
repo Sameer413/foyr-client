@@ -1,13 +1,17 @@
 "use client";
 
 import ProductSection from "@/components/product-section";
-import { productsData } from "@/productsData";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Header from "@/components/header";
 import CarouselComponent from "@/components/corousel-section";
+import { productsData } from "@/another";
 
 export default function Home() {
+  const [selectedIndex, setSelectedIndex] = useState<number>(0); // sync index across components
+
+  // Helper for selected section name and data
+
   const [currentProducts, setCurrentProducts] = useState(
     productsData["the house of w"].label
   );
@@ -54,7 +58,10 @@ export default function Home() {
       onTouchEnd={handleTouchEnd}
       className="relative h-full"
     >
-      <Header />
+      <Header
+        selectedIndex={selectedIndex}
+        setSelectedIndex={setSelectedIndex}
+      />
 
       <motion.div
         initial={{ opacity: 1 }}
@@ -72,7 +79,10 @@ export default function Home() {
         className="fixed bottom-0 left-0 w-full h-screen z-20 flex flex-col justify-center items-start px-10 overflow-hidden"
       >
         <div className="w-full h-full overflow-y-scroll no-select no-drag">
-          <ProductSection />
+          <ProductSection
+            selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
+          />
         </div>
       </motion.div>
     </div>

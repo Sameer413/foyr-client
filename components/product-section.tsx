@@ -4,19 +4,22 @@ import { motion } from "motion/react";
 import { productsData } from "@/another";
 import EachProducts from "./each-products";
 
-const ProductSection: React.FC = () => {
+const ProductSection: React.FC<{
+  selectedIndex: number;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ selectedIndex, setSelectedIndex }) => {
   const sections = Object.keys(productsData);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleSwipe = (dir: "left" | "right") => {
-    if (dir === "left" && index < sections.length - 1) {
-      setIndex((prev) => prev + 1);
-    } else if (dir === "right" && index > 0) {
-      setIndex((prev) => prev - 1);
+    if (dir === "left" && selectedIndex < sections.length - 1) {
+      setSelectedIndex((prev) => prev + 1);
+    } else if (dir === "right" && selectedIndex > 0) {
+      setSelectedIndex((prev) => prev - 1);
     }
   };
 
@@ -62,7 +65,7 @@ const ProductSection: React.FC = () => {
     >
       <motion.div
         className="flex transition-transform duration-500 ease-in-out"
-        animate={{ x: `-${index * 100}%` }}
+        animate={{ x: `-${selectedIndex * 100}%` }}
         // transition={{ type: "spring", stiffness: 200, damping: 30 }}
         transition={{ ease: "easeInOut", duration: 0.3 }}
       >
@@ -75,14 +78,14 @@ const ProductSection: React.FC = () => {
           return (
             <div
               key={i}
-              className="w-full flex-shrink-0"
+              className="w-full shrink-0"
               style={{ flex: "0 0 100%" }}
             >
               <EachProducts
                 currentSection={section}
                 allProducts={allProducts}
                 index={i}
-                direction={index > i ? -1 : 1}
+                direction={selectedIndex > i ? -1 : 1}
               />
             </div>
           );
