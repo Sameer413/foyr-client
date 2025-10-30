@@ -1,5 +1,5 @@
-import { Download } from "lucide-react";
 import React from "react";
+import { Download } from "lucide-react";
 
 const ProductDetail = () => {
   return (
