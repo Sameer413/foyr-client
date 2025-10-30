@@ -3,8 +3,8 @@ import { Download } from "lucide-react";
 
 const ProductDetail = () => {
   return (
-    <div className="flex-[0_0_36%] flex flex-col justify-start gap-6 overflow-y-auto">
-      <div>
+    <div className="flex flex-col justify-start gap-4 sm:gap-5 lg:gap-6 overflow-y-auto w-full lg:flex-[0_0_36%] mt-0 lg:mt-0">
+      <div className="hidden lg:block">
         <p className="text-base text-[#888] font-nunito">
           SKU Code : RPTBRVNU_00265
         </p>

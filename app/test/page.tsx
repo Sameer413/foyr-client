@@ -1,12 +1,12 @@
 "use client";
-import Header from "@/components/header";
-import { useSelected } from "@/components/provider";
-import ProductImageSection from "@/components/product-img-section";
+import React from "react";
+import ImageSectionTest from "../product/image-section-test";
 import ProductDetail from "@/components/product-detail";
 import VideoSection from "@/components/video-section";
-import ImageSectionTest from "./image-section-test";
+import { useSelected } from "@/components/provider";
+import Header from "@/components/header";
 
-const ProductPage = () => {
+const Page = () => {
   const { selectedIndex, setSelectedIndex } = useSelected();
 
   return (
@@ -26,4 +26,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default Page;
