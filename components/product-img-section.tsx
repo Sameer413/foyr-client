@@ -17,7 +17,6 @@ const ProductImageSection = () => {
         {images.map((img, idx) => (
           <motion.button
             key={idx}
-            // onClick={() => setCurrentImg(img)}
             initial={{ opacity: 0, x: -30, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
             transition={{
@@ -40,7 +39,7 @@ const ProductImageSection = () => {
 
       {/* Main Image (COVER + FIXED HEIGHT AREA) */}
       <div className="flex justify-center items-center flex-1">
-        <div className="relative w-full h-[80vh] flex justify-center items-center overflow-hidden rounded-xl">
+        <div className="relative w-full h-[80vh] flex justify-center items-start overflow-hidden rounded-xl">
           <motion.img
             key={currentImg}
             initial={{ clipPath: "inset(0 0 100% 0)" }} // fully hidden from top
@@ -48,7 +47,7 @@ const ProductImageSection = () => {
             transition={{ duration: 1, ease: "easeInOut" }}
             src={currentImg}
             alt="product name"
-            className="w-full h-full object-cover transition-all duration-300"
+            className="w-full object-cover transition-all duration-300"
           />
         </div>
       </div>

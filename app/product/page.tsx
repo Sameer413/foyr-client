@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
 import Header from "@/components/header";
 import { useSelected } from "@/components/provider";
 import ProductImageSection from "@/components/product-img-section";
 import ProductDetail from "@/components/product-detail";
+import VideoSection from "@/components/video-section";
 
 const ProductPage = () => {
   const { selectedIndex, setSelectedIndex } = useSelected();
@@ -23,8 +23,8 @@ const ProductPage = () => {
         <ProductDetail />
       </div>
 
-      <div className="flex w-full text-black p-8 pt-20 gap-8 max-w-7xl mx-auto">
-        bottom
+      <div className="">
+        <VideoSection />
       </div>
     </div>
   );
