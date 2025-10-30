@@ -85,7 +85,6 @@ const ProductSection: React.FC<{
                 currentSection={section}
                 allProducts={allProducts}
                 index={i}
-                direction={selectedIndex > i ? -1 : 1}
               />
             </div>
           );

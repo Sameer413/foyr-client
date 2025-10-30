@@ -2,6 +2,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 interface EachProductsProps {
   currentSection: {
@@ -9,14 +10,12 @@ interface EachProductsProps {
   };
   allProducts: { image: string; label: string }[];
   index: number;
-  direction: number;
 }
 
 const EachProducts: React.FC<EachProductsProps> = ({
   currentSection,
   allProducts,
   index,
-  direction,
 }) => {
   return (
     <div className="px-24 py-10">
@@ -38,8 +37,10 @@ const EachProducts: React.FC<EachProductsProps> = ({
       {/* Product Grid */}
       <div className="grid grid-cols-4 gap-8">
         {allProducts.map((p, idx) => (
-          <div
+          <Link
+            href={"/product"}
             key={idx}
+            target="_blank"
             className="rounded-2xl group overflow-hidden relative cursor-pointer"
           >
             <img
@@ -53,7 +54,7 @@ const EachProducts: React.FC<EachProductsProps> = ({
                 <ChevronRight className="w-5 h-5 text-white" />
               </button>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

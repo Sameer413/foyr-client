@@ -38,3 +38,10 @@ body {
   -webkit-touch-callout: none;
   -ms-user-select: none;
 }
+
+@layer base {
+  .font-nunito {
+    font-family: var(--font-nunito);
+  }
+
+}

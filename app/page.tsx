@@ -6,24 +6,28 @@ import { AnimatePresence, motion } from "motion/react";
 import Header from "@/components/header";
 import CarouselComponent from "@/components/corousel-section";
 import { productsData } from "@/another";
+import { useSelected } from "@/components/provider";
 
 export default function Home() {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0); // sync index across components
+  // const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const { selectedIndex, setSelectedIndex } = useSelected();
 
-  // Helper for selected section name and data
-
-  const [currentProducts, setCurrentProducts] = useState(
-    productsData["the house of w"].label
-  );
   const [scrolled, setScrolled] = useState(false);
+  const [autoPlay, setAutoPlay] = useState(true);
 
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY > 0 && !scrolled) setScrolled(true); // scroll down
-      if (e.deltaY < 0 && scrolled) setScrolled(false); // scroll up
+      if (e.deltaY > 0 && !scrolled) {
+        setScrolled(true);
+        setAutoPlay(false);
+      } // scroll down
+      if (e.deltaY < 0 && scrolled) {
+        setScrolled(false);
+        setAutoPlay(true);
+      } // scroll up
     };
 
     window.addEventListener("wheel", onWheel, { passive: true });
@@ -72,6 +76,7 @@ export default function Home() {
         <CarouselComponent
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
+          autoPlay={autoPlay}
         />
       </motion.div>
 

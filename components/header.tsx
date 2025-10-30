@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import { navItems } from "@/another";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import React, { useState } from "react";
 
 const Header: React.FC<{
   selectedIndex: number;
@@ -16,33 +16,28 @@ const Header: React.FC<{
     <header className="fixed top-0 left-0 w-full haut z-50 bg-white">
       {/* Top Header */}
       <div className="max-w-5xl mx-auto flex items-center justify-between px-8 py-4 ">
-        <Link href={"/"} className="text-xl font-semibold tracking-wide">
+        <Link href={"/"} className="text-xl font-semibold text-nowrap">
           All home.
         </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center gap-10 relative">
+        <nav className="invisible lg:visible flex items-center gap-10 relative">
           {navItems.map((navItem, idx) => (
-            <div
+            <Link
+              href={"/"}
               key={navItem.label}
-              className="relative"
               onMouseEnter={() => setActiveMain(navItem.label)}
               onMouseLeave={() => {
                 setActiveSub(null);
               }}
               onClick={() => setSelectedIndex(idx)}
+              // className="relative"
+              className={`relative uppercase text-sm font-medium text-neutral-600 tracking-wide hover:text-neutral-950 ${
+                selectedIndex === idx ? "text-neutral-950" : "text-neutral-600"
+              } ${navItem.data.items === null && "pointer-events-none"}`}
             >
-              <button
-                className={`uppercase text-sm font-medium text-neutral-600 tracking-wide hover:text-neutral-950 ${
-                  selectedIndex === idx
-                    ? "text-neutral-950"
-                    : "text-neutral-600"
-                }`}
-                disabled={navItem.data.items === null}
-              >
-                {navItem.label}
-              </button>
-            </div>
+              {navItem.label}
+            </Link>
           ))}
         </nav>
 
@@ -57,7 +52,7 @@ const Header: React.FC<{
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="absolute top-full left-0 w-full bg-white shadow-xl z-40"
+            className="absolute top-full left-0 w-full bg-white shadow-xl z-40 transition-all ease-linear"
             onMouseLeave={() => {
               setActiveMain(null);
               setActiveSub(null);
