@@ -55,7 +55,7 @@ const ProductSection: React.FC<{
 
   return (
     <div
-      className="relative overflow-hidden min-h-screen bg-white select-none px-24 py-10"
+      className="relative overflow-hidden min-h-screen bg-white select-none lg:px-24 lg:py-10 xl:px-24 xl:py-10"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

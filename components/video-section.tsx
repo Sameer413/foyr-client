@@ -22,73 +22,73 @@ const VideoSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1, 1]);
   const x = useTransform(scrollYProgress, [0, 0.5], ["30%", "0%"]);
 
-  useEffect(() => {
-    // --- Wheel (Desktop / Laptop / Touchpad) ---
-    const handleWheel = (event: WheelEvent) => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
+  // useEffect(() => {
+  //   // --- Wheel (Desktop / Laptop / Touchpad) ---
+  //   const handleWheel = (event: WheelEvent) => {
+  //     const scrollTop = window.scrollY;
+  //     const windowHeight = window.innerHeight;
+  //     const fullHeight = document.body.scrollHeight;
 
-      const atTop = scrollTop === 0;
-      const atBottom = scrollTop + windowHeight >= fullHeight;
+  //     const atTop = scrollTop === 0;
+  //     const atBottom = scrollTop + windowHeight >= fullHeight;
 
-      // if (atTop && event.deltaY < 0) {
-      //   console.log("Already at top — can't scroll further! mouse/touchpad");
-      // } else
-      if (atBottom && event.deltaY > 0) {
-        // console.log("Already at bottom — can't scroll further! mouse/touchpad");
-        setVisble(true);
-      }
-    };
+  //     // if (atTop && event.deltaY < 0) {
+  //     //   console.log("Already at top — can't scroll further! mouse/touchpad");
+  //     // } else
+  //     if (atBottom && event.deltaY > 0) {
+  //       // console.log("Already at bottom — can't scroll further! mouse/touchpad");
+  //       setVisble(true);
+  //     }
+  //   };
 
-    // --- Touch (Mobile devices) ---
-    let startY = 0;
+  //   // --- Touch (Mobile devices) ---
+  //   let startY = 0;
 
-    const handleTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-    };
+  //   const handleTouchStart = (e: TouchEvent) => {
+  //     startY = e.touches[0].clientY;
+  //   };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
+  //   const handleTouchMove = (e: TouchEvent) => {
+  //     const scrollTop = window.scrollY;
+  //     const windowHeight = window.innerHeight;
+  //     const fullHeight = document.body.scrollHeight;
 
-      const currentY = e.touches[0].clientY;
-      const isScrollingUp = currentY > startY;
-      const isScrollingDown = currentY < startY;
+  //     const currentY = e.touches[0].clientY;
+  //     const isScrollingUp = currentY > startY;
+  //     const isScrollingDown = currentY < startY;
 
-      // if (scrollTop === 0 && isScrollingUp) {
-      //   console.log("Already at top — can't scroll further! touch");
-      // } else
-      if (scrollTop + windowHeight >= fullHeight && isScrollingDown) {
-        // console.log("Already at bottom — can't scroll further! touch");
-        setVisble(true);
-      }
-    };
+  //     // if (scrollTop === 0 && isScrollingUp) {
+  //     //   console.log("Already at top — can't scroll further! touch");
+  //     // } else
+  //     if (scrollTop + windowHeight >= fullHeight && isScrollingDown) {
+  //       // console.log("Already at bottom — can't scroll further! touch");
+  //       setVisble(true);
+  //     }
+  //   };
 
-    // Add all listeners
-    window.addEventListener("wheel", handleWheel);
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
+  //   // Add all listeners
+  //   window.addEventListener("wheel", handleWheel);
+  //   window.addEventListener("touchstart", handleTouchStart);
+  //   window.addEventListener("touchmove", handleTouchMove);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.3 } // triggers when at least 30% of element is visible
-    );
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       const [entry] = entries;
+  //       setIsInView(entry.isIntersecting);
+  //     },
+  //     { threshold: 0.3 } // triggers when at least 30% of element is visible
+  //   );
 
-    if (videoRef.current) observer.observe(videoRef.current);
+  //   if (videoRef.current) observer.observe(videoRef.current);
 
-    // Cleanup on unmount
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      if (videoRef.current) observer.unobserve(videoRef.current);
-    };
-  }, []);
+  //   // Cleanup on unmount
+  //   return () => {
+  //     window.removeEventListener("wheel", handleWheel);
+  //     window.removeEventListener("touchstart", handleTouchStart);
+  //     window.removeEventListener("touchmove", handleTouchMove);
+  //     if (videoRef.current) observer.unobserve(videoRef.current);
+  //   };
+  // }, []);
 
   // Optional: pause video when not visible
   useEffect(() => {
@@ -118,7 +118,7 @@ const VideoSection = () => {
           className="h-full w-full object-cover aspect-video rounded-xl"
           // style={{ scale, x }}
         />
-        {visible && (
+        {/* {visible && (
           <motion.div
             initial={{ opacity: 0, scale: 0.1 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -132,7 +132,7 @@ const VideoSection = () => {
               place for inner contemplation, regeneration, and revitalization.
             </div>
           </motion.div>
-        )}
+        )} */}
       </motion.div>
     </div>
   );

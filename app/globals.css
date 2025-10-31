@@ -44,4 +44,27 @@ body {
     font-family: var(--font-nunito);
   }
 
+  /* @media (min-width: 1280px) {
+    html {
+      font-size: 100%;
+    }
+  }
+
+  @media (min-width: 1180px) {
+    html {
+      font-size: 78%;
+    }
+  }
+
+  @media (min-width: 821px) {
+    html {
+      font-size: 80%;
+    }
+  }
+
+  @media (min-width: 769px) {
+    html {
+      font-size: 100%;
+    }
+  } */
 }

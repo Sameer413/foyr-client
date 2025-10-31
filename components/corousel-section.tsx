@@ -9,6 +9,8 @@ interface CarouselProps {
   interval?: number;
   selectedIndex: number;
   setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+  setScrolled: React.Dispatch<React.SetStateAction<boolean>>;
+  setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const images = carouselData.map((item) => item.imgsrc);
@@ -18,6 +20,8 @@ const CarouselComponent: React.FC<CarouselProps> = ({
   setSelectedIndex,
   autoPlay = true,
   interval = 5000,
+  setScrolled,
+  setAutoPlay,
 }) => {
   const [direction, setDirection] = useState(0);
   const DRAG_THRESHOLD = 80; // px to decide next/prev
@@ -46,8 +50,8 @@ const CarouselComponent: React.FC<CarouselProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[101vh] overflow-hidden shadow-lg">
-      <div className="relative w-full h-full overflow-hidden shadow-lg">
+    <div className="w-full h-full overflow-hidden shadow-lg">
+      <div className="relative">
         {/* SLIDER WRAPPER */}
         <motion.div
           className="flex"
@@ -70,7 +74,7 @@ const CarouselComponent: React.FC<CarouselProps> = ({
           {images.map((slide, i) => (
             <div
               key={i}
-              className="relative min-w-[75%] h-full overflow-hidden select-none"
+              className="relative min-w-[75%] h-screen overflow-hidden select-none"
             >
               <motion.img
                 src={slide}
@@ -84,55 +88,61 @@ const CarouselComponent: React.FC<CarouselProps> = ({
               {/* ANIMATED CAPTION/LOGO OVERLAY */}
               {selectedIndex === i && (
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={selectedIndex}
-                    className="absolute bottom-10 left-10 flex flex-col items-start gap-3 z-20"
-                  >
-                    {/* Logo */}
-                    <motion.img
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
-                      exit={{ opacity: 1, y: 0 }}
-                      src="https://allhome.foyr.com/assets/ColourCoatsLogo-1cad008b.png"
-                      className="h-6 w-auto object-contain no-drag"
-                    />
-
-                    {/* Text */}
+                  <div className="absolute bottom-10 w-full flex px-10 justify-between items-end lg:flex-row xl:flex-row flex-col">
                     <motion.div
+                      key={selectedIndex}
+                      className=" flex flex-col items-start gap-3 z-20"
+                    >
+                      {/* Logo */}
+                      <motion.img
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.4 }}
+                        exit={{ opacity: 1, y: 0 }}
+                        src="https://allhome.foyr.com/assets/ColourCoatsLogo-1cad008b.png"
+                        className="h-6 w-auto object-contain no-drag"
+                      />
+
+                      {/* Text */}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5, ease: "linear", duration: 1 }}
+                        exit={{ opacity: 1 }}
+                        className="text-white lg:text-4xl xl:text-4xl font-medium w-96"
+                      >
+                        {selectedIndex === 0 && "Premium Interior Facades"}
+                        {selectedIndex === 1 && "Modern Bathroom Designs"}
+                        {selectedIndex === 2 && "Luxury Home Spaces"}
+                      </motion.div>
+
+                      {/* Expanding bar (must be INSIDE same motion.div) */}
+                      <motion.div
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        transition={{
+                          delay: 0.9,
+                          duration: 1,
+                          ease: "easeInOut",
+                        }}
+                        className="h-1 w-28 bg-white origin-center mt-1"
+                      />
+                    </motion.div>
+
+                    <motion.button
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.5, ease: "linear", duration: 1 }}
                       exit={{ opacity: 1 }}
-                      className="text-white text-4xl font-medium w-96"
-                    >
-                      {selectedIndex === 0 && "Premium Interior Facades"}
-                      {selectedIndex === 1 && "Modern Bathroom Designs"}
-                      {selectedIndex === 2 && "Luxury Home Spaces"}
-                    </motion.div>
-
-                    {/* Expanding bar (must be INSIDE same motion.div) */}
-                    <motion.div
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      animate={{ scaleX: 1, opacity: 1 }}
-                      transition={{
-                        delay: 0.9,
-                        duration: 1,
-                        ease: "easeInOut",
+                      onClick={() => {
+                        setScrolled(true);
+                        setAutoPlay(false);
                       }}
-                      className="h-1 w-28 bg-white origin-center mt-1"
-                    />
-                  </motion.div>
-
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5, ease: "linear", duration: 1 }}
-                    exit={{ opacity: 1 }}
-                    className="absolute bottom-10 right-10 bg-[rgba(0,0,0,.6)] border-none text-white py-2 px-4 rounded-full"
-                  >
-                    Explore Products
-                  </motion.button>
+                      className="bg-[rgba(0,0,0,.6)] border-none text-white py-2 px-4 rounded-full cursor-pointer"
+                    >
+                      Explore Products
+                    </motion.button>
+                  </div>
                 </AnimatePresence>
               )}
             </div>
@@ -142,7 +152,7 @@ const CarouselComponent: React.FC<CarouselProps> = ({
           <div className="relative min-w-[75%] h-full overflow-hidden">
             <img
               src={images[0]}
-              className="w-full h-full object-cover"
+              className="w-full h-screen object-cover"
               alt="duplicate-first"
             />
           </div>
@@ -150,7 +160,7 @@ const CarouselComponent: React.FC<CarouselProps> = ({
       </div>
 
       {/* Arrows */}
-      <div className="absolute bottom-10 right-10 flex items-center gap-4 z-10">
+      <div className="absolute lg:bottom-10 lg:right-10 xl:bottom-10 xl:right-10 flex items-center gap-4 z-10">
         <button
           onClick={prevSlide}
           className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition"

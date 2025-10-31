@@ -2,10 +2,9 @@
 
 import ProductSection from "@/components/product-section";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import Header from "@/components/header";
 import CarouselComponent from "@/components/corousel-section";
-import { productsData } from "@/another";
 import { useSelected } from "@/components/provider";
 
 export default function Home() {
@@ -77,6 +76,8 @@ export default function Home() {
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
           autoPlay={autoPlay}
+          setScrolled={setScrolled}
+          setAutoPlay={setAutoPlay}
         />
       </motion.div>
 

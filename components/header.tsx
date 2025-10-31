@@ -13,7 +13,7 @@ const Header: React.FC<{
   const activeData = navItems.find((item) => item.label === activeMain);
 
   return (
-    <header className="fixed top-0 left-0 w-full haut z-50 bg-white">
+    <header className="fixed top-0 left-0 w-full z-50 bg-white">
       {/* Top Header */}
       <div className="max-w-5xl mx-auto flex items-center justify-between px-8 py-4 ">
         <Link href={"/"} className="text-xl font-semibold text-nowrap">
